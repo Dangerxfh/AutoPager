@@ -11,13 +11,13 @@
  - htmlunit 2.18
 ### :beetle: 运行步骤：
 
-:pushpin: 将要抓取的url配置到项目static/urls.txt文件中，每个url一行
+ - 将要抓取的url配置到项目static/urls.txt文件中，每个url一行
 
-:pushpin: 在config.properties 中配置属性
+ - 在config.properties 中配置属性
 
-#### :bell: execute_js（是否执行页面js代码  false：不执行，true：执行，默认是执行）
+  #### :bell: execute_js（是否执行页面js代码  false：不执行，true：执行，默认是执行）
     
-#### :bell: refresh_rate（ip刷新频率，单位分钟，默认5分钟）
+  #### :bell: refresh_rate（ip刷新频率，单位分钟，默认5分钟）
 
 :pushpin: 运行Main.java 中的 main方法
 
