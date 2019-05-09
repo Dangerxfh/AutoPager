@@ -5,8 +5,8 @@
   程序主要利用超级匿名ip（来自[66免费代理](http://www.66ip.cn/)）实现网页的模拟访问，目前测试成功率为20%（正在优化），通过简单的配置即可运行。
   
 ### :beetle: 流程介绍：  
-  在urls.txt中随机选择url，然后在user_agent.txt中随机选择ua，通过chromdriver 实现ip实时抓取，这个需要弹出页面（有点尴尬），
-  后期尝试phantomJs和chrome headless 版本实现。
+  在urls.txt中随机选择url，然后在user_agent.txt中随机选择ua，通过chromedriver实现ip实时抓取，这个需要弹出页面（有点尴尬），
+  后期尝试phantomJs和chrome headless 版本实现。每隔10min刷新ip页面。
 ### :beetle: 框架支持：
  - selenium 3.14.0
  - htmlunit 2.18
