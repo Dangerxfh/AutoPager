@@ -1,9 +1,5 @@
 package cn.keepting.spider.pool;
 
-import cn.keepting.spider.Constant;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;

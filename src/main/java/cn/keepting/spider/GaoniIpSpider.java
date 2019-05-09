@@ -2,20 +2,18 @@ package cn.keepting.spider;
 
 import cn.keepting.spider.pool.PageUrlPool;
 import cn.keepting.spider.pool.UaPool;
+import cn.keepting.spider.util.Configure;
 import com.gargoylesoftware.htmlunit.ProxyConfig;
 import com.gargoylesoftware.htmlunit.WebClient;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
+import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -30,14 +28,16 @@ public class GaoniIpSpider {
 
     public static void spider() throws Exception {
 //        List<String> uas = Files.readAllLines(Paths.get("C:\\Users\\Administrator\\Desktop\\userAgents.txt"), Charset.defaultCharset());
-        WebDriver driver = new ChromeDriver();
-        driver.get(Constant.GAONI_IP_URL);
+        ChromeOptions chromeOptions=new ChromeOptions();
+        chromeOptions.addArguments("--headless");
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.get(Configure.gaoniIpUrl());
         Thread.sleep(2000);
 
         AtomicInteger count = new AtomicInteger(0);
         while (true) {
             //10min重新获取ip
-            if ((System.currentTimeMillis()/1000)%(10*60)==0) {
+            if ((System.currentTimeMillis() / 1000) % (Configure.getRefreshIpRate() * 60) == 0) {
                 driver.navigate().refresh();
                 Thread.sleep(2000);
                 count = new AtomicInteger(0);
@@ -56,7 +56,7 @@ public class GaoniIpSpider {
 
                     if (ip.contains(".")) {
 
-                        WebClient webClient=getWebClient();
+                        WebClient webClient = getWebClient();
 
                         //随机ua
                         String UA = UaPool.randomUA();
@@ -82,14 +82,11 @@ public class GaoniIpSpider {
     }
 
 
-
-    public static WebClient getWebClient(){
+    public static WebClient getWebClient() {
         WebClient webClient = new WebClient();
         webClient.getOptions().setThrowExceptionOnScriptError(false);
         webClient.getOptions().setCssEnabled(false);
-        if(Constant.executeJs==0){
-            webClient.getOptions().setJavaScriptEnabled(false);
-        }
+        webClient.getOptions().setJavaScriptEnabled(Configure.isExecuteJs());
         return webClient;
     }
 }

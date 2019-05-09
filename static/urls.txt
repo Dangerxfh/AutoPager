@@ -1,0 +1,9 @@
+http://www.keepting.cn
+http://www.keepting.cn/post/python_function.html
+http://www.keepting.cn/post/mapReduce_desc_2.html
+http://www.keepting.cn/post/mapReduce_desc.html
+http://www.keepting.cn/post/Hystrix流程分析及断路器工作原理.html
+http://www.keepting.cn/post/关于异步log4j2中location信息打印问题.html
+http://www.keepting.cn/post/解决关于selenium_获取新页面元素失败的问题.html
+http://www.keepting.cn/post/2016第七届蓝桥杯--剪邮票（DFS）.html
+http://www.keepting.cn/post/mvn_deploy_上传jar到Nexus私服.html
