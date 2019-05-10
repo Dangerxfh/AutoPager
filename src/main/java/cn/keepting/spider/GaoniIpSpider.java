@@ -14,6 +14,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
+import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -23,12 +24,16 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @Date: 2019/5/7 14:55.
  */
 public class GaoniIpSpider {
-    static ExecutorService executorService = Executors.newFixedThreadPool(10);
+    static ExecutorService executorService;
 
 
     public static void spider() throws Exception {
-//        List<String> uas = Files.readAllLines(Paths.get("C:\\Users\\Administrator\\Desktop\\userAgents.txt"), Charset.defaultCharset());
-        ChromeOptions chromeOptions=new ChromeOptions();
+
+        Integer refreshIpRate = Configure.getRefreshIpRate();
+        Integer threadPoolCapcity = Configure.threadPoolCount();
+        System.out.println("=====初始化模拟器====\n线程池大小：" + threadPoolCapcity + "\nip列表获取频率：" + refreshIpRate + "分钟");
+        executorService = Executors.newFixedThreadPool(threadPoolCapcity);
+        ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--headless");
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.get(Configure.gaoniIpUrl());
@@ -36,11 +41,10 @@ public class GaoniIpSpider {
 
         AtomicInteger count = new AtomicInteger(0);
         while (true) {
-            //10min重新获取ip
-            if ((System.currentTimeMillis() / 1000) % (Configure.getRefreshIpRate() * 60) == 0) {
+            //重新获取ip
+            if ((System.currentTimeMillis() / 1000) % (refreshIpRate * 60) == 0) {
                 driver.navigate().refresh();
                 Thread.sleep(2000);
-                count = new AtomicInteger(0);
             }
             String ips = driver.findElement(By.tagName("body")).getText();
             List<String> ipAndPorts = Arrays.asList(ips.split("\\n"));
@@ -68,8 +72,10 @@ public class GaoniIpSpider {
                             proxyConfig.setProxyPort(Integer.parseInt(port));
                             String result = webClient.getPage(url).getWebResponse().getContentAsString();
                             System.out.println("返回结果长度：" + result.length());
-                            System.out.println("===" + finalCount.get() + "===代理ip访问：ip:" + ip + ":" + port + "======\n" + "UA:" + UA);
-                            Thread.sleep(3000);
+                            int stayTime=Configure.stayTime();
+                            System.out.println("===" + finalCount.get() + "===代理ip访问：ip:" + ip + ":" + port + "======页面停留时长："+stayTime + "秒\nUA:" + UA);
+
+                            Thread.sleep(stayTime * 1000);
                         } catch (Exception e) {
                             System.out.println("====" + finalCount.get() + "====访问异常：" + e.getMessage());
                         } finally {

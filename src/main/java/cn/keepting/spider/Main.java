@@ -2,6 +2,8 @@ package cn.keepting.spider;
 
 import cn.keepting.spider.pool.PageUrlPool;
 import cn.keepting.spider.pool.UaPool;
+import cn.keepting.spider.util.Configure;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 
@@ -15,8 +17,14 @@ public class Main {
         UaPool.init();
         PageUrlPool.init();
 
+
+        if(StringUtils.equals("win",Configure.getSystem())){
+            System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"/static/chromedriver_win.exe");
+        }else{
+            System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"/static/chromedriver_"+Configure.getSystem()+"_"+Configure.getSysDigit());
+        }
+
         //chromedriver
-        System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"/static/chromedriver.exe");
         GaoniIpSpider.spider();
     }
 }

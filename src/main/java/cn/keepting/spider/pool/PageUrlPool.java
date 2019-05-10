@@ -1,5 +1,7 @@
 package cn.keepting.spider.pool;
 
+import cn.keepting.spider.util.Configure;
+
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -18,7 +20,8 @@ public class PageUrlPool {
 
    public static void init() throws IOException {
        urls = Files.readAllLines(Paths.get(System.getProperty("user.dir")+"/static/urls.txt"), Charset.defaultCharset());
-    }
+       System.out.println("=====初始化待抓取URL=====\n条数："+ urls.size());
+   }
 
     public static String randomUrl(){
         return urls==null?null:urls.get(new Random().nextInt(urls.size()));
