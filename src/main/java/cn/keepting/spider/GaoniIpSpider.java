@@ -60,8 +60,8 @@ public class GaoniIpSpider {
 
                     if (ip.contains(".")) {
 
-                        WebClient webClient = getWebClient();
-
+                        int stayTime=Configure.stayTime();
+                        WebClient webClient = getWebClient(stayTime);
                         //随机ua
                         String UA = UaPool.randomUA();
                         webClient.addRequestHeader("User-Agent", UA);
@@ -72,10 +72,9 @@ public class GaoniIpSpider {
                             proxyConfig.setProxyPort(Integer.parseInt(port));
                             String result = webClient.getPage(url).getWebResponse().getContentAsString();
                             System.out.println("返回结果长度：" + result.length());
-                            int stayTime=Configure.stayTime();
-                            System.out.println("===" + finalCount.get() + "===代理ip访问：ip:" + ip + ":" + port + "======页面停留时长："+stayTime + "秒\nUA:" + UA);
 
-                            Thread.sleep(stayTime * 1000);
+                            System.out.println("===" + finalCount.get() + "===代理ip访问：ip:" + ip + ":" + port + "======页面停留时长："+stayTime + "秒\nUA:" + UA);
+//                            Thread.sleep(stayTime * 1000);
                         } catch (Exception e) {
                             System.out.println("====" + finalCount.get() + "====访问异常：" + e.getMessage());
                         } finally {
@@ -88,11 +87,12 @@ public class GaoniIpSpider {
     }
 
 
-    public static WebClient getWebClient() {
+    public static WebClient getWebClient(int stayTime) {
         WebClient webClient = new WebClient();
         webClient.getOptions().setThrowExceptionOnScriptError(false);
         webClient.getOptions().setCssEnabled(false);
         webClient.getOptions().setJavaScriptEnabled(Configure.isExecuteJs());
+        webClient.getOptions().setTimeout(stayTime*1000);
         return webClient;
     }
 }

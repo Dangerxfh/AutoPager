@@ -19,6 +19,7 @@ public class Main {
 
 
         if(StringUtils.equals("win",Configure.getSystem())){
+            System.out.println("项目路径"+System.getProperty("user.dir"));
             System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"/static/chromedriver_win.exe");
         }else{
             System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"/static/chromedriver_"+Configure.getSystem()+"_"+Configure.getSysDigit());
